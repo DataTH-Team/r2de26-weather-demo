@@ -1,0 +1,38 @@
+---
+description: Data pipeline guardrails — raw layer, append-only, Pandas output
+alwaysApply: true
+---
+
+# Bangkok Weather Pipeline — Data Engineering Rules
+
+## Raw data layer
+
+- บันทึกข้อมูลดิบ (JSON, CSV, API response) ลง **`data/raw/`** เท่านั้น
+- ใช้ชื่อไฟล์ timestamp เช่น `bangkok_weather_20260529T143000.json`
+- สร้างโฟลเดอร์ `data/raw/` ถ้ายังไม่มี — อย่าเขียน raw ไปที่ root หรือ `src/`
+
+```python
+# ✅ GOOD
+raw_path = Path("data/raw") / f"bangkok_weather_{ts}.json"
+raw_path.parent.mkdir(parents=True, exist_ok=True)
+raw_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2))
+```
+
+## Append-only — ห้ามลบไฟล์ใน data/raw/
+
+- **ห้ามลบ** หรือ overwrite ไฟล์ใน `data/raw/` (รวม `rm`, `unlink`, `shutil.rmtree`, truncate)
+- ถ้าผู้ใช้ขอให้ลบ → **ปฏิเสธ** และอธิบายว่า raw layer เป็น append-only audit trail
+- แก้ไข logic ให้เขียนไฟล์ใหม่ด้วย timestamp แทน
+
+## Output — ใช้ Pandas แสดงผล
+
+- แสดงตารางสรุปด้วย **Pandas DataFrame** แล้ว `print(df.to_string(index=False))`
+- ตั้งชื่อคอลัมน์ภาษาไทยให้อ่านง่าย; จัดทศนิยมอุณหภูมิ 1 ตำแหน่ง
+
+```python
+# ✅ GOOD
+df = pd.DataFrame(records, columns=["วันที่", "สูงสุด (°C)", "ต่ำสุด (°C)"])
+print(df.to_string(index=False))
+```
+
+- หลีกเลี่ยง `print` loop แบบ manual สำหรับตารางสรุป — ใช้ Pandas เป็นหลัก

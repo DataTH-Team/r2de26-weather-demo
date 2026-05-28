@@ -1,0 +1,43 @@
+{
+  "latitude": 13.743409,
+  "longitude": 100.495865,
+  "generationtime_ms": 0.10120868682861328,
+  "utc_offset_seconds": 25200,
+  "timezone": "Asia/Bangkok",
+  "timezone_abbreviation": "GMT+7",
+  "elevation": 4.0,
+  "daily_units": {
+    "time": "iso8601",
+    "temperature_2m_max": "°C",
+    "temperature_2m_min": "°C"
+  },
+  "daily": {
+    "time": [
+      "2026-05-22",
+      "2026-05-23",
+      "2026-05-24",
+      "2026-05-25",
+      "2026-05-26",
+      "2026-05-27",
+      "2026-05-28"
+    ],
+    "temperature_2m_max": [
+      32.5,
+      33.2,
+      34.0,
+      35.4,
+      34.5,
+      36.5,
+      35.2
+    ],
+    "temperature_2m_min": [
+      28.0,
+      25.8,
+      27.6,
+      27.9,
+      27.0,
+      26.8,
+      27.4
+    ]
+  }
+}
